@@ -18,6 +18,7 @@ export async function GET(request, { params }) {
         include: {
           walls: true,
           windows: true,
+          extras: true,
         },
       },
     },

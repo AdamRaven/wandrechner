@@ -9,18 +9,19 @@ export async function POST(request, { params }) {
   }
 
   const { pageId } = await params;
-  const { name, manualArea, width, height, count } = await request.json();
+  const { name, type, width, height, height2, count } = await request.json();
 
-  const window = await prisma.window.create({
+  const extra = await prisma.extra.create({
     data: {
-      name: name || "Fenster",
-      manualArea: manualArea != null && manualArea !== "" ? parseFloat(manualArea) : null,
-      width: parseFloat(width) || 0,
-      height: parseFloat(height) || 0,
+      name: name || "Neuer Eintrag",
+      type: type || "standard",
+      width: width != null ? parseFloat(width) : null,
+      height: height != null ? parseFloat(height) : null,
+      height2: height2 != null ? parseFloat(height2) : null,
       count: parseInt(count) || 1,
       pageId,
     },
   });
 
-  return NextResponse.json(window, { status: 201 });
+  return NextResponse.json(extra, { status: 201 });
 }
