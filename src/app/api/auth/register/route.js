@@ -39,8 +39,9 @@ export async function POST(request) {
       { status: 201 }
     );
   } catch (error) {
+    console.error("[register] error:", error);
     return NextResponse.json(
-      { error: "Fehler bei der Registrierung" },
+      { error: "Fehler bei der Registrierung", detail: error.message },
       { status: 500 }
     );
   }
