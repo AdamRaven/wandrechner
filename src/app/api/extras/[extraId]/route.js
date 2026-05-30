@@ -8,21 +8,22 @@ export async function PUT(request, { params }) {
     return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
   }
 
-  const { windowId } = await params;
-  const { name, manualArea, width, height, count } = await request.json();
+  const { extraId } = await params;
+  const { name, type, width, height, height2, count } = await request.json();
 
-  const window = await prisma.window.update({
-    where: { id: windowId },
+  const extra = await prisma.extra.update({
+    where: { id: extraId },
     data: {
       name,
-      manualArea: manualArea != null && manualArea !== "" ? parseFloat(manualArea) : null,
-      width: parseFloat(width) || 0,
-      height: parseFloat(height) || 0,
+      type: type || "standard",
+      width: width != null ? parseFloat(width) : null,
+      height: height != null ? parseFloat(height) : null,
+      height2: height2 != null ? parseFloat(height2) : null,
       count: parseInt(count) || 1,
     },
   });
 
-  return NextResponse.json(window);
+  return NextResponse.json(extra);
 }
 
 export async function DELETE(request, { params }) {
@@ -31,9 +32,9 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
   }
 
-  const { windowId } = await params;
+  const { extraId } = await params;
 
-  await prisma.window.delete({ where: { id: windowId } });
+  await prisma.extra.delete({ where: { id: extraId } });
 
-  return NextResponse.json({ message: "Fenster gelöscht" });
+  return NextResponse.json({ message: "Eintrag gelöscht" });
 }
